@@ -1,6 +1,6 @@
 #Blue
 
-Author: Corbett Stephens June ,14 2021
+Author: Corbett Stephens July 14, 2021
 
 Blue is a TryHackMe room that explored the "Eternal Blue" exploit from older versions of windows. 
 

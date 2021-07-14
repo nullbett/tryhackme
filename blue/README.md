@@ -8,7 +8,7 @@ Room: https://tryhackme.com/room/blue
 
 ------------------------------------------------------------------------------------------------
 
-I will be attempting to root this machine from the standpoint that I do not know that this is an eternal blue exploit.
+I will be attempting to root this machine from the stand-point that I do not know that this is an eternal blue exploit.
 
 The first thing I do is start up openvpn that way I can connect to the TryHackMe rooms.
 

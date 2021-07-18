@@ -10,7 +10,7 @@ Room is [here](https://tryhackme.com/room/blue).
 
 The first thing I do is start up openvpn that way I can connect to the TryHackMe rooms.
 
-'sudo openvpn nullbett.ovpn'
+`sudo openvpn nullbett.ovpn`
 
 #Reconnaissance
 >10.10.48.230

@@ -62,15 +62,16 @@ I'm used the same command but changed the script to "vuln".
 `nmap -p0-1000 --script vuln -sV -vv 10.10.48.230 -oN vuln.nmap`
 
 Luckily, the results yield some intersting information.
-
-`| smb-vuln-ms17-010: 
+<div>
+| smb-vuln-ms17-010: 
 |   VULNERABLE:
 |   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
 |     State: VULNERABLE
 |     IDs:  CVE:CVE-2017-0143
 |     Risk factor: HIGH
 |       A critical remote code execution vulnerability exists in Microsoft SMBv1
-|        servers (ms17-010).`
+|        servers (ms17-010).
+</div>
 
 Do to our vuln script we can see that this system is vulnerable to smb-vuln-ms17-010 which is a remote code execution vulnerability.
 

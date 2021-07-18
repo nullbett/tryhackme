@@ -12,14 +12,15 @@ The first thing I do is start up openvpn that way I can connect to the TryHackMe
 
 `sudo openvpn nullbett.ovpn`
 
-#Reconnaissance
->10.10.48.230
+## Reconnaissance
+Host ip address: `10.10.48.230`
 
-First thing I do is to ping the host to see if we can get an explicit response.
+Next, I ping the host to see if we can get a response.
 
->ping 10.10.48.230
+`ping 10.10.48.230`
 
-PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
+Respones:
+`PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 64 bytes from 10.10.48.230: icmp_seq=1 ttl=125 time=180 ms
 64 bytes from 10.10.48.230: icmp_seq=2 ttl=125 time=202 ms
 64 bytes from 10.10.48.230: icmp_seq=3 ttl=125 time=224 ms
@@ -31,47 +32,51 @@ PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 ^C
 --- 10.10.48.230 ping statistics ---
 8 packets transmitted, 8 received, 0% packet loss, time 7010ms
-rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms
+rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms`
 
-We can see that the host is up so now we can start with a nmap scan
+We can see that the host is up and running, so now we can start with a nmap scan.
 
-nmap -p0-1000 -sC -sV -vv 10.10.48.230 -oN initial.nmap
+I run the command:
+`nmap -p0-1000 -sC -sV -vv 10.10.48.230 -oN initial.nmap`
 
-"-p0-1000" scans the first 1000 ports
-"-sC" uses the default script for enumeration
-"-sV" tries to specify versions
-"-vv" extra verbosity
-"-oN initial.nmap" writes the output to the file initial.nmap
+-"-p0-1000" scans the first 1000 ports
+-"-sC" uses the default script for enumeration
+-"-sV" tries to specify versions
+-"-vv" extra verbosity
+-"-oN initial.nmap" writes the output to the file initial.nmap
 
-Looking at the output we can see that three ports are open
+Looking at the [output](https://github.com/nullbett/tryhackme/blob/main/blue/initial.nmap) we can see that three ports are open.
 
-PORT    STATE SERVICE      REASON  VERSION
+`PORT    STATE SERVICE      REASON  VERSION
 135/tcp open  msrpc        syn-ack Microsoft Windows RPC
 139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
 445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
+Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows`
 
-We also ge the name of a potential user: Jon
+We also get a hint that a potential user is "Jon".
 
-The next thing I would do is run another nmap scan to look for vulnerablities. This could be done in the initial nmap scan but I decided to partition it into two seperate scans.
+The next thing I would do is run another nmap scan to look for vulnerablities. This could be done in the initial nmap scan but I decided to use two seperate scans. If stealth was a concern then I would otherwise use a different command.
 
-I'm going to use the same command but chagne the script to "vuln"
+I'm used the same command but changed the script to "vuln".
 
-nmap -p0-1000 --script vuln -sV -vv 10.10.48.230 -oN vuln.nmap
+`nmap -p0-1000 --script vuln -sV -vv 10.10.48.230 -oN vuln.nmap`
 
 Luckily, the results yield some intersting information.
 
-| smb-vuln-ms17-010: 
+`| smb-vuln-ms17-010: 
 |   VULNERABLE:
 |   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
 |     State: VULNERABLE
 |     IDs:  CVE:CVE-2017-0143
 |     Risk factor: HIGH
 |       A critical remote code execution vulnerability exists in Microsoft SMBv1
-|        servers (ms17-010).
+|        servers (ms17-010).`
 
 Do to our vuln script we can see that this system is vulnerable to smb-vuln-ms17-010 which is a remote code execution vulnerability.
 
-A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the article we can see that ms17-010 is also known as "EternalBlue". https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html
+A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier a module to use within metasploit.
+
+-----------------------------------------------------------------------------------------------------
 
 #Gaining Access
 

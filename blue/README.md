@@ -6,7 +6,7 @@ Blue is a TryHackMe room that explores the "Eternal Blue" exploit from older ver
 
 Room is [here](https://tryhackme.com/room/blue).
 
---------------------------------------------------------------------------------------------------
+---
 
 The first thing I do is start up openvpn that way I can connect to the TryHackMe rooms.
 
@@ -20,7 +20,10 @@ Next, I ping the host to see if we can get a response.
 `ping 10.10.48.230`
 
 Respones:
-`PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
+
+'''
+
+PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 64 bytes from 10.10.48.230: icmp_seq=1 ttl=125 time=180 ms
 64 bytes from 10.10.48.230: icmp_seq=2 ttl=125 time=202 ms
 64 bytes from 10.10.48.230: icmp_seq=3 ttl=125 time=224 ms
@@ -32,7 +35,9 @@ Respones:
 ^C
 --- 10.10.48.230 ping statistics ---
 8 packets transmitted, 8 received, 0% packet loss, time 7010ms
-rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms`
+rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms
+
+'''
 
 We can see that the host is up and running, so now we can start with a nmap scan.
 
@@ -47,8 +52,7 @@ I run the command:
 
 Looking at the [output](https://github.com/nullbett/tryhackme/blob/main/blue/initial.nmap) we can see that three ports are open.
 
----
-**NOTE**
+
 
 PORT    STATE SERVICE      REASON  VERSION
 135/tcp open  msrpc        syn-ack Microsoft Windows RPC
@@ -56,7 +60,7 @@ PORT    STATE SERVICE      REASON  VERSION
 445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
 Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
 
----
+
 
 
 We also get a hint that a potential user is "Jon".
@@ -83,7 +87,7 @@ Do to our vuln script we can see that this system is vulnerable to smb-vuln-ms17
 
 A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier a module to use within metasploit.
 
------------------------------------------------------------------------------------------------------
+---
 
 #Gaining Access
 

@@ -93,6 +93,7 @@ This can be done via:
 The module we want is "exploit/windows/smb/ms17_010_eternalblue" because this uses windows versions prior to windows 8
 
 **PICTURE**
+![](module_options.pmg)
 
 An easy way to select the module you want to use is to enter "use <number>" so we would enter "use 2"
 

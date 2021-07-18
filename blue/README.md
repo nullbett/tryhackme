@@ -46,17 +46,18 @@ I run the command:
 - "-oN initial.nmap" writes the output to the file initial.nmap
 
 Looking at the [output](https://github.com/nullbett/tryhackme/blob/main/blue/initial.nmap) we can see that three ports are open.
-'''
 
-{
-	PORT    STATE SERVICE      REASON  VERSION
-	135/tcp open  msrpc        syn-ack Microsoft Windows RPC
-	139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
-	445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
-	Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
-	}
+---
+**NOTE**
 
-'''
+PORT    STATE SERVICE      REASON  VERSION
+135/tcp open  msrpc        syn-ack Microsoft Windows RPC
+139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
+Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+---
+
 
 We also get a hint that a potential user is "Jon".
 

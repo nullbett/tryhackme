@@ -21,8 +21,7 @@ Next, I ping the host to see if we can get a response.
 
 Respones:
 
-<html>
-	<head>
+<blockquote>
 PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 64 bytes from 10.10.48.230: icmp_seq=1 ttl=125 time=180 ms
 64 bytes from 10.10.48.230: icmp_seq=2 ttl=125 time=202 ms
@@ -36,9 +35,7 @@ PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 --- 10.10.48.230 ping statistics ---
 8 packets transmitted, 8 received, 0% packet loss, time 7010ms
 rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms
-	</head>
-</html>
-
+</blockquote>
 
 We can see that the host is up and running, so now we can start with a nmap scan.
 

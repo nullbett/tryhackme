@@ -1,18 +1,16 @@
-#Blue
+# Blue
 
 Author: Corbett Stephens July 14, 2021
 
-Blue is a TryHackMe room that explored the "Eternal Blue" exploit from older versions of windows. 
+Blue is a TryHackMe room that explores the "Eternal Blue" exploit from older versions of windows. 
 
-Room: https://tryhackme.com/room/blue
+Room is [here](https://tryhackme.com/room/blue).
 
-------------------------------------------------------------------------------------------------
-
-I will be attempting to root this machine from the stand-point that I do not know that this is an eternal blue exploit.
+--------------------------------------------------------------------------------------------------
 
 The first thing I do is start up openvpn that way I can connect to the TryHackMe rooms.
 
-> sudo openvpn <file>
+'sudo openvpn nullbett.ovpn'
 
 #Reconnaissance
 >10.10.48.230
@@ -92,7 +90,6 @@ This can be done via:
 
 The module we want is "exploit/windows/smb/ms17_010_eternalblue" because this uses windows versions prior to windows 8
 
-**PICTURE**
 ![](ms_module.png)
 
 An easy way to select the module you want to use is to enter "use <number>" so we would enter "use 2"

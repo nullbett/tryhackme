@@ -15,11 +15,11 @@ The first thing I do is start up openvpn that way I can connect to the TryHackMe
 ## Reconnaissance
 Host ip address: `10.10.48.230`
 
-Next, I ping the host to see if we can get a response.
+Next, I ping the host to see if I can get a response.
 
 `ping 10.10.48.230`
 
-Respones:
+Response:
 
 <pre>
 PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
@@ -39,7 +39,8 @@ rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms
 
 We can see that the host is up and running, so now we can start with a nmap scan.
 
-I run the command:
+I ran the command:
+
 `nmap -p0-1000 -sC -sV -vv 10.10.48.230 -oN initial.nmap`
 
 - "-p0-1000" scans the first 1000 ports
@@ -48,29 +49,27 @@ I run the command:
 - "-vv" extra verbosity
 - "-oN initial.nmap" writes the output to the file initial.nmap
 
-Looking at the [output](https://github.com/nullbett/tryhackme/blob/main/blue/initial.nmap) we can see that three ports are open.
+Looking at the [output](https://github.com/nullbett/tryhackme/blob/main/blue/initial.nmap) I see that three ports are open.
 
-
-
+<pre>
 PORT    STATE SERVICE      REASON  VERSION
 135/tcp open  msrpc        syn-ack Microsoft Windows RPC
 139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
 445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
 Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
+<pre>
 
+I also get a hint that a potential user is "Jon".
 
+The next thing I would do is run another nmap scan to look for vulnerablities. This could be done in the initial nmap scan, but I decided to use two seperate scans. If stealth was a concern then I would do the previous steps differently.
 
-
-We also get a hint that a potential user is "Jon".
-
-The next thing I would do is run another nmap scan to look for vulnerablities. This could be done in the initial nmap scan but I decided to use two seperate scans. If stealth was a concern then I would otherwise use a different command.
-
-I'm used the same command but changed the script to "vuln".
+To scan for vulnerabilites I used the same command but changed the script to "vuln".
 
 `nmap -p0-1000 --script vuln -sV -vv 10.10.48.230 -oN vuln.nmap`
 
 Luckily, the results yield some intersting information.
-<div>
+
+<pre>
 | smb-vuln-ms17-010: 
 |   VULNERABLE:
 |   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
@@ -79,38 +78,35 @@ Luckily, the results yield some intersting information.
 |     Risk factor: HIGH
 |       A critical remote code execution vulnerability exists in Microsoft SMBv1
 |        servers (ms17-010).
-</div>
+</pre>
 
-Do to our vuln script we can see that this system is vulnerable to smb-vuln-ms17-010 which is a remote code execution vulnerability.
+Do to the vuln script I can see that this system is vulnerable to smb-vuln-ms17-010 which allows for remote code execution.
 
-A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier a module to use within metasploit.
+A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier to find a module within metasploit.
 
 ---
 
-#Gaining Access
+## Gaining Access
 
-We now want to try to gain futher access of this machine. We have a potential attack vector with EternalBlue. For someone that doesn't know the first step in using the EternalBlue exploit, use your favorite search engine to look for a starting position.
+I now want to try to gain futher access on this machine. I have a potential attack vector by using the information on EternalBlue.
 
-Fire up Metasploit!
+Next, Fire up Metasploit!
 
-In Kali Linux, you can do this by searching metasploit in the home bar and then typing in your sudo password. Otherwise, you'll want run "sudo msfdb init && msfconsole"
+I used Kali Linux which has Metasploit already installed, so all I have to do is hit the home button and search for Metasploit. Once the metasploit shell is spawned the fun can begin. I now look for a module that uses the EternalBlue exploit.
 
-Once the metasploit shell is spawned the fun can begin.
+This can be done via: `search eternalblue` in the metasploit shell.
 
-Since my initial attack vector consists of EternalBlue, then I will look for a module that will allow me to use it.
-
-This can be done via:
-"search eternalblue" 
-
-The module we want is "exploit/windows/smb/ms17_010_eternalblue" because this uses windows versions prior to windows 8
+The results I find are as shown below:
 
 ![](ms_module.png)
 
-An easy way to select the module you want to use is to enter "use <number>" so we would enter "use 2"
+The module I want is **exploit/windows/smb/ms17_010_eternalblue** because this uses a windows versions prior to windows 8.
 
-We want to know the required fields for this module. This can be done by entering the command "options". This will allows us to see some important information.
+An easy way to select the module you want to use is to enter `use <number>`, so I would enter "use 2" in this case.
 
-**Picture**
+Each module has required fields that have to be set before an exploit can be ran. I can find this important information by entering `options` into the shell. 
+
+![](tryhackme/blue/pictures/module_options.png)
 
 We need to set the RHOSTS which is the target host that we are attacking. We do this by entering:
 

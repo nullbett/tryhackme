@@ -98,13 +98,13 @@ This can be done via: `search eternalblue` in the metasploit shell.
 
 The results I find are as shown below:
 
-![](ms_module.png)
+![](./pictures/ms_module.png)
 
 The module I want is **exploit/windows/smb/ms17_010_eternalblue** because this uses a windows versions prior to windows 8.
 
 An easy way to select the module you want to use is to enter `use <number>`, so I would enter "use 2" in this case.
 
-Each module has required fields that have to be set before an exploit can be ran. I can find this important information by entering `options` into the shell. 
+Each module has required fields that have to be set before an exploit can be ran. This can be found by entering `options` into the shell. 
 
 ![](./pictures/module_options.png)
 

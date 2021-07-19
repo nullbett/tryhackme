@@ -1,0 +1,55 @@
+# Nmap 7.91 scan initiated Wed Jul 14 11:37:44 2021 as: nmap -p0-1000 -sC -sV -vv -oN initial.nmap 10.10.48.230
+Nmap scan report for 10.10.48.230
+Host is up, received conn-refused (0.13s latency).
+Scanned at 2021-07-14 11:37:44 CDT for 36s
+Not shown: 998 closed ports
+Reason: 998 conn-refused
+PORT    STATE SERVICE      REASON  VERSION
+135/tcp open  msrpc        syn-ack Microsoft Windows RPC
+139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
+Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: 1h39m57s, deviation: 2h53m12s, median: -2s
+| nbstat: NetBIOS name: JON-PC, NetBIOS user: <unknown>, NetBIOS MAC: 02:99:bb:7b:c0:73 (unknown)
+| Names:
+|   JON-PC<00>           Flags: <unique><active>
+|   WORKGROUP<00>        Flags: <group><active>
+|   JON-PC<20>           Flags: <unique><active>
+|   WORKGROUP<1e>        Flags: <group><active>
+|   WORKGROUP<1d>        Flags: <unique><active>
+|   \x01\x02__MSBROWSE__\x02<01>  Flags: <group><active>
+| Statistics:
+|   02 99 bb 7b c0 73 00 00 00 00 00 00 00 00 00 00 00
+|   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+|_  00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 40768/tcp): CLEAN (Couldn't connect)
+|   Check 2 (port 5876/tcp): CLEAN (Couldn't connect)
+|   Check 3 (port 59330/udp): CLEAN (Timeout)
+|   Check 4 (port 15832/udp): CLEAN (Failed to receive data)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+| smb-os-discovery: 
+|   OS: Windows 7 Professional 7601 Service Pack 1 (Windows 7 Professional 6.1)
+|   OS CPE: cpe:/o:microsoft:windows_7::sp1:professional
+|   Computer name: Jon-PC
+|   NetBIOS computer name: JON-PC\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2021-07-14T11:38:12-05:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2021-07-14T16:38:12
+|_  start_date: 2021-07-14T16:10:58
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Jul 14 11:38:20 2021 -- 1 IP address (1 host up) scanned in 35.76 seconds

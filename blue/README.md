@@ -1,10 +1,10 @@
 # Blue
 
-Author: Corbett Stephens July 14, 2021
+Author: Corbett Stephens || July 14, 2021
 
 Blue is a TryHackMe room that explores the "Eternal Blue" exploit from older versions of windows. 
 
-Room is [here](https://tryhackme.com/room/blue).
+The room can be found [here](https://tryhackme.com/room/blue).
 
 ---
 
@@ -82,7 +82,7 @@ Luckily, the results yield some intersting information.
 
 Do to the vuln script I can see that this system is vulnerable to smb-vuln-ms17-010 which allows for remote code execution.
 
-A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier to find a module within metasploit.
+A simple google search of "smb-vuln-ms17-010" will pull up the information about this vulnerability. Reading the first line of the [article](https://nmap.org/nsedoc/scripts/smb-vuln-ms17-010.html) we can see that ms17-010 is also known as "EternalBlue". This is helpful information because it will make it easier to find a module within Metasploit.
 
 ---
 
@@ -90,9 +90,9 @@ A simple google search of "smb-vuln-ms17-010" will pull up the information about
 
 I now want to try to gain futher access on this machine. I have a potential attack vector by using the information on EternalBlue.
 
-Next, Fire up Metasploit!
+The first thing I do is fire up Metasploit!
 
-I used Kali Linux which has Metasploit already installed, so all I have to do is hit the home button and search for Metasploit. Once the metasploit shell is spawned the fun can begin. I now look for a module that uses the EternalBlue exploit.
+I use Kali Linux which has Metasploit already installed. All I have to do is hit the home button and search for Metasploit. Once the metasploit shell is spawned the fun can begin. I now look for a module that uses the EternalBlue exploit.
 
 This can be done via: `search eternalblue` in the metasploit shell.
 
@@ -106,7 +106,7 @@ An easy way to select the module you want to use is to enter `use <number>`, so 
 
 Each module has required fields that have to be set before an exploit can be ran. I can find this important information by entering `options` into the shell. 
 
-![](tryhackme/blue/pictures/module_options.png)
+![](./pictures/module_options.png)
 
 We need to set the RHOSTS which is the target host that we are attacking. We do this by entering:
 

@@ -57,7 +57,7 @@ PORT    STATE SERVICE      REASON  VERSION
 139/tcp open  netbios-ssn  syn-ack Microsoft Windows netbios-ssn
 445/tcp open  microsoft-ds syn-ack Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
 Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
-<pre>
+</pre>
 
 I also get a hint that a potential user is "Jon".
 

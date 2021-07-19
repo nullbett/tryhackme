@@ -37,7 +37,7 @@ PING 10.10.48.230 (10.10.48.230) 56(84) bytes of data.
 rtt min/avg/max/mdev = 144.010/193.973/235.202/28.333 ms
 </pre>
 
-We can see that the host is up and running, so now we can start with a nmap scan.
+We can see that the host is up and running, so now I can start with a nmap scan.
 
 I ran the command:
 

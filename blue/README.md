@@ -108,7 +108,7 @@ Each module has required fields that have to be set before an exploit can be ran
 
 ![](./pictures/module_options.png)
 
-We need to set the RHOSTS which is the target host that we are attacking. We do this by entering:
+I need to set the RHOSTS which is the target host that we are attacking. We do this by entering:
 
 "set RHOSTS 10.10.48.230"
 

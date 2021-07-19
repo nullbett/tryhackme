@@ -67,7 +67,7 @@ To scan for vulnerabilites I used the same command but changed the script to "vu
 
 `nmap -p0-1000 --script vuln -sV -vv 10.10.48.230 -oN vuln.nmap`
 
-Luckily, the results yield some intersting information.
+Luckily, the results yield some intersting [information](https://github.com/nullbett/tryhackme/blob/main/blue/vuln.nmap).
 
 <pre>
 | smb-vuln-ms17-010: 
@@ -122,7 +122,7 @@ If the exploit is successful then a DOS (disk operationg system) shell will appe
 
 ![](./pictures/dos.png)
 
-If I run "whoami" it says that I am "nt authority\system" which has very sensative user privlages.
+If I run "whoami" it says that I am "nt authority\system" which has very sensative user privileges.
 
 I want upgrade this shell to a meterprerter shell as there are a lot of benefits to using a meterpreter shell. I used this [article](https://www.hackingarticles.in/command-shell-to-meterpreter/) to help me figure out how to upgrade my shell. 
 
@@ -132,7 +132,7 @@ To upgrade: `sessions -u 1`
 
 Now that we have our meterpreter shell, we can run "getsystem" to ensure that we are indeed "nt authority\system".
 
-Just because our user is system, doesnt mean that the process is. We will want to switch our process to one that is running "nt authority\system". 
+Just because our user is system, doesnt mean that the process is. We will want to switch our process to one that is running "nt authority\system". I used `migrate <pid>` to do this.
 
 
 Meterpreter has a handy command to dump the SAM database. SAM is the system accounts manager. The SAM database stores passwords locally. By using the `hashdump` command I can get this data and try to make something useful with it.
@@ -148,6 +148,7 @@ Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
 In this case, I am interested in Jon. I created a file named "jon.hash" and put the hash values into the file. To crack this hash, I used John the Ripper which comes default on Kali Linux. I ran the following commands:
 
 `john jon.hash --format=NT --wordlist=./rockyou.txt`
+
 `john jon.hash --format=NT --show`
 
 - "jon.hash" the file reading from
@@ -159,12 +160,13 @@ Jon:**alqfna22**:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8
 </pre>
 
 Username: Jon
+
 Password: **alqfna22**
 
 ---
 
 ## Find Flags
-This part is just for answer the questions on TryHackMe.
+This part is just for answering the questions on TryHackMe.
 
 The first flag can be found in the at the root.
 
@@ -186,4 +188,5 @@ Flag 3: `flag{admin_documents_can_be_valuable}`
 This room allowed me to fully execute the famous EternalBlue exploit from top to bottom. In the process, I strengethed my skills in nmap, Metasploit, and John the Ripper. I started my reconnaissance with nmap, developed my attack vector with Metasploit, and derived user credentials with John the Ripper.
 
 Thank you,
+
 Corbett
